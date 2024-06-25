@@ -128,6 +128,11 @@ is enabled."
   "Show priority before heading text."
   :type 'boolean)
 
+(defcustom org-sticky-header-at-point nil
+   "When set, show the header where the point is. When nil, show the
+header at the top of the window."
+  :type 'boolean)
+
 ;;;; Functions
 
 (defun org-sticky-header-goto-heading (event)
@@ -141,7 +146,8 @@ is enabled."
 (defun org-sticky-header--fetch-stickyline ()
   "Return string of Org heading or outline path for display in header line."
   (org-with-wide-buffer
-   (goto-char (window-start))
+   (unless org-sticky-header-at-point
+     (goto-char (window-start)))
    (if (org-before-first-heading-p)
        ""
      (progn
